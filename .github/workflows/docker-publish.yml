@@ -25,6 +25,9 @@ env:
 jobs:
   integration:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
     steps:
       - name: Trigger integration workflow
         uses: peter-evans/repository-dispatch@v3
@@ -34,7 +37,7 @@ jobs:
           event-type: run-integration-workflow
           client-payload: '{"triggered_by":"delivery-workflow"}'
   build:
-
+    needs: [integration]
     runs-on: ubuntu-latest
     permissions:
       contents: read
